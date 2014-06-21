@@ -1,4 +1,4 @@
 c-fundamentals
 ==============
 
-Basic programs in c
+This is a repository of programs that I will write as I learn the fundamentals of c.
