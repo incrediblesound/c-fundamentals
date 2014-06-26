@@ -24,7 +24,7 @@ char *get_line (char* query) {
 }
 
 void make_file (char* query){
-	char filename[20],ext[10], name[30], line[100], carrot[5], test[5];
+	char filename[20], ext[10], name[30], line[100], carrot[5], test[5];
 	strcpy(test, "end");
 	FILE * fp;
 	strcpy(ext, ".txt");
@@ -43,11 +43,36 @@ void make_file (char* query){
 	fclose(fp);
 }
 
-int main () {
+int main (int num, char **args) {
+	char query[50], name[50], ext[10], *line;
+	int counter;
 
-	char query[50], name[50];
+	counter = 0;
+	line = ( char *) malloc (500);
+	FILE * fp;
 
-	strcpy(query, "Name of this note: ");
-	make_file(query);
-	return 0;
+	strcpy(ext, ".txt");
+
+	if(num > 1) {
+		printf("Contents of note name: %s\n", args[1]);
+		strcpy(name, args[1]);
+		strcat(name, ext);
+		fp = fopen(name, "r+");
+		
+		while(1) {
+			fgets(line, 500, fp);
+			if(feof(fp)) {
+				break;
+			}
+			++counter;
+			printf("%i) %s", counter, line);
+		}
+		fclose(fp);
+		return 0;
+
+	} else {
+		strcpy(query, "Name of this note: ");
+		make_file(query);
+		return 0;
+	}
 }
