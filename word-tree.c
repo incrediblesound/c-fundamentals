@@ -31,26 +31,61 @@ void insert(char *word, struct node **leaf) {
 	}
 }
 
-/*int search(char *word, struct node *leaf) {
+void display(char *sw, struct node **leaf, char *prev) {
+	char weak[5], strong[5], *w, *s;
+	strcpy(weak, "w"); strcpy(strong, "s");
+	w = weak; s = strong;
 
-	if( leaf != 0 ) {
-		if(word == leaf->word) {
-			return leaf->word;
+	if(leaf != 0) 
+	{
+		if(strcmp(prev, (*leaf)->word) == 0) 
+		{
+			if(strcmp(weak, sw) == 0) 
+			{
+				display(w, &(*leaf)->left, (*leaf)->word);
+			}
+			else if(strcmp(strong, sw) == 0) 
+			{
+				display(s, &(*leaf)->right, (*leaf)->word);
+			} 
+			else 
+			{
+			printf("Error!\n");
+			}
+		} 
+		else 
+		{
+			if(strcmp(weak, sw) == 0) 
+			{	
+				printf("%s is weaker than %s\n", (*leaf)->word, prev);
+			} 
+			else 
+			{
+				printf("%s is stronger than %s\n", (*leaf)->word, prev);
+			}
+		display(w, &(*leaf)->left, (*leaf)->word);
+		display(s, &(*leaf)->right, (*leaf)->word);
 		}
-		else if(key < leaf->key_value) {
-			return search(key, leaf->left);
+	}
+}
+
+void search(char *word, char *sw, struct node **leaf) {
+	if( leaf != 0 ) {
+		if(strcmp(word, (*leaf)->word) == 0) {
+			display(sw, &(*leaf), word);
 		}
 		else {
-			return search(key, leaf->right);
+			search(word,sw, &(*leaf)->right);
+			search(word,sw, &(*leaf)->left);
 		}
-	} else {
-		return 0;
-	}
-}*/
+	} 
+}
 
 int main() {
-	char word_a[20], *input;
+	char word_a[20], word_b[20], dir[5], *input, *word, *sw;
 	input = word_a;
+	word = word_b;
+	sw = dir;
 	int count = 5;
 	struct node *root = 0;
 	while(count > 0) {
@@ -59,5 +94,10 @@ int main() {
 		insert(input, &(root));
 		count--;
 	}
+	printf("Word to find: ");
+	scanf("%s", word);
+	printf("Stronger or weaker? ");
+	scanf("%s", sw);
+	search(word, dir, &(root));
 	return 0;
 }
